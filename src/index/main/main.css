@@ -43,10 +43,6 @@
 }
 .custom-label img {
   width: 100%;
-  opacity: 0;
-}
-.one-genre input:checked + .custom-label img {
-  opacity: 1;
 }
 
 .main-grid-layout {

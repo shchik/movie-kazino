@@ -6,14 +6,28 @@ import activeImage from "./images/icons/active-icon.png";
 import { slotsPrototype } from "../../data/slot";
 import "./main.css";
 import React, { useState } from "react";
+import { genres } from "../../data/genre";
 
 function Main() {
   const [slots, setSlots] = React.useState(
     JSON.parse(localStorage.getItem("slots")) || slotsPrototype
   );
 
+  const [selectedGenre, setSelectedGenre] = React.useState(null);
+
   function addLike(slotId, event) {
     if (event.currentTarget.nextElementSibling.style.color === "lightgreen") {
+      event.currentTarget.nextElementSibling.style.color = "white";
+
+      setSlots((s) => {
+        return slots.map((slot) => {
+          if (slot.id === slotId) {
+            return { ...slot, likesCount: slot.likesCount - 1 };
+          }
+          return slot;
+        });
+      });
+      localStorage.setItem("slots", JSON.stringify(slots));
       return;
     }
     event.currentTarget.nextElementSibling.style.color = "lightgreen"; //
@@ -56,6 +70,42 @@ function Main() {
     ));
   }
 
+  function renderGenreList() {
+    return genres.map((genre) => (
+      <li className="one-genre" key={genre.id}>
+        <span>{genre.name}</span>
+        <input
+          type="radio"
+          id={genre.id}
+          className="input-class"
+          checked={selectedGenre === genre.name}
+          onChange={() => handleLabelClick(genre.name)}
+        ></input>
+        <label
+          htmlFor={genre.id}
+          className="custom-label"
+          onClick={() => handleLabelClick(genre.name)}
+        >
+          <img
+            src={activeImage}
+            style={{ opacity: selectedGenre === genre.name ? 1 : 0 }}
+          ></img>
+        </label>
+      </li>
+    ));
+  }
+
+  const handleLabelClick = (genre) => {
+    console.log(selectedGenre);
+    console.log(genre);
+    if (selectedGenre === genre) {
+      console.log("setted");
+      setSelectedGenre(null);
+    } else {
+      setSelectedGenre((g) => genre);
+    }
+  };
+
   return (
     <div className="main-flexbox">
       <div className="sidebar">
@@ -63,50 +113,7 @@ function Main() {
           <img src={searchImage}></img>
           <input placeholder="Провайдеры поиска"></input>
         </div>
-        <ul className="genre-list">
-          <li className="one-genre">
-            <span>Драма</span>
-            <input type="radio" id="drama" className="input-class"></input>
-            <label for="drama" class="custom-label">
-              <img src={activeImage}></img>
-            </label>
-          </li>
-          <li className="one-genre">
-            <span>Комедия</span>
-            <input type="radio" id="comedy"></input>
-            <label for="comedy" class="custom-label">
-              <img src={activeImage}></img>
-            </label>
-          </li>
-          <li className="one-genre">
-            <span>Боевик</span>
-            <input type="radio" id="boevic"></input>
-            <label for="boevic" class="custom-label">
-              <img src={activeImage}></img>
-            </label>
-          </li>
-          <li className="one-genre">
-            <span>Триллер</span>
-            <input type="radio" id="triller"></input>
-            <label for="triller" class="custom-label">
-              <img src={activeImage}></img>
-            </label>
-          </li>
-          <li className="one-genre">
-            <span>Хоррор</span>
-            <input type="radio" id="horror"></input>
-            <label for="horror" class="custom-label">
-              <img src={activeImage}></img>
-            </label>
-          </li>
-          <li className="one-genre">
-            <span>Фантастика</span>
-            <input type="radio" id="fantasy"></input>
-            <label for="fantasy" class="custom-label">
-              <img src={activeImage}></img>
-            </label>
-          </li>
-        </ul>
+        <ul className="genre-list">{renderGenreList()}</ul>
       </div>
 
       <div className="main-grid-layout js-main-grid-layout">
