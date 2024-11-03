@@ -3,10 +3,31 @@ import likeImage from "./images/icons/like-icon.png";
 import infoImage from "./images/icons/info-icon.png";
 import searchImage from "./images/icons/search-icon.png";
 import activeImage from "./images/icons/active-icon.png";
-import { slots } from "../../data/slot";
+import { slotsPrototype } from "../../data/slot";
 import "./main.css";
+import React, { useState } from "react";
 
 function Main() {
+  const [slots, setSlots] = React.useState(
+    JSON.parse(localStorage.getItem("slots")) || slotsPrototype
+  );
+
+  function addLike(slotId, event) {
+    if (event.currentTarget.nextElementSibling.style.color === "lightgreen") {
+      return;
+    }
+    event.currentTarget.nextElementSibling.style.color = "lightgreen"; //
+    setSlots((s) => {
+      return slots.map((slot) => {
+        if (slot.id === slotId) {
+          return { ...slot, likesCount: slot.likesCount + 1 };
+        }
+        return slot;
+      });
+    });
+    localStorage.setItem("slots", JSON.stringify(slots));
+  }
+
   function renderMainGrid() {
     return slots.map((slot) => (
       <div className="one-slot" key={slot.id}>
@@ -17,8 +38,14 @@ function Main() {
           <img src={infoImage} alt="hello" className="info-icon"></img>
         </a>
         <div className="likes-class">
-          <img src={likeImage} alt="hello" className="like-icon"></img>
-          <span className="likes-count">433</span>
+          <img
+            src={likeImage}
+            alt="hello"
+            className="like-icon js-like-icon"
+            onClick={(event) => addLike(slot.id, event)}
+            data-slot-id={slot.id}
+          ></img>
+          <span className="likes-count js-likes-count">{slot.likesCount}</span>
         </div>
         <img
           src={favouritesImage}
@@ -39,7 +66,7 @@ function Main() {
         <ul className="genre-list">
           <li className="one-genre">
             <span>Драма</span>
-            <input type="radio" id="drama"></input>
+            <input type="radio" id="drama" className="input-class"></input>
             <label for="drama" class="custom-label">
               <img src={activeImage}></img>
             </label>
