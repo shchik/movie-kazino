@@ -6,7 +6,7 @@ import Login from "./login/login.js";
 
 function MainPage() {
   return (
-    <div className="Index">
+    <div className="main-page">
       <Header />
       <Main />
       <Footer />
