@@ -1,5 +1,5 @@
 .main-flexbox {
-  margin: 70px 0px 0px 60px;
+  margin: 70px 0px 0px 50px;
   display: flex;
 }
 .sidebar {
@@ -18,11 +18,14 @@
 }
 .search-bar input {
   padding: 4px 8px;
-  margin-left: 3px;
+  margin: 0px 10px;
+  width: 200px;
+  outline: none;
 }
 .genre-list {
   font-size: 17px;
   list-style-type: none;
+  margin: 10px 2px 0px 25px;
 }
 .one-genre {
   display: flex;
