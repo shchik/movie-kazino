@@ -1,8 +1,41 @@
 import React from "react";
 import "./login.css";
+import { AuthService } from "../../services/auth.service.ts";
+import { toast } from "react-toastify";
 
 function Login({ onLoginClick, isLoginned }) {
   const [isLogin, setIsLogin] = React.useState(isLoginned);
+
+  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+
+  const registrationHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const data = await AuthService.registration({
+        email: email,
+        username: username,
+        password: password,
+      });
+      if (data) {
+        toast.success("Account has been created!");
+        onLoginClick();
+      }
+    } catch (err) {
+      const error = err.response?.data.message;
+      toast.error(error.toString());
+    }
+  };
+
+  const loginnHandler = async (e) => {
+    try {
+    } catch (err) {
+      const error = err.response?.data.message;
+      toast.error(error.toString());
+    }
+  };
 
   return (
     <div className="mt-40 flex flex-col items-center justify-center bg-slate-900 text-white w-1/4 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl content-form">
@@ -16,11 +49,17 @@ function Login({ onLoginClick, isLoginned }) {
         {isLogin ? "Login" : "Registration"}
       </h1>
 
-      <form className="flex w-2/3 flex-col gap-5">
+      <form
+        className="flex w-2/3 flex-col gap-5"
+        onSubmit={isLogin ? loginnHandler : registrationHandler}
+      >
         <input
           type={isLogin ? "text" : "email"}
           className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
           placeholder={isLogin ? "Username" : "Email"}
+          onChange={(e) =>
+            isLogin ? setUsername(e.target.value) : setEmail(e.target.value)
+          }
         ></input>
         {isLogin ? (
           ""
@@ -29,12 +68,14 @@ function Login({ onLoginClick, isLoginned }) {
             type="text"
             className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
             placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
           ></input>
         )}
         <input
           type="password"
           className="input focus:outline-none  bg-transparent border-2 border-solid border-slate-500 rounded p-1"
           placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
         ></input>
 
         {isLogin ? (
@@ -44,6 +85,7 @@ function Login({ onLoginClick, isLoginned }) {
             type="password"
             className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
             placeholder="Confirm Password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
           ></input>
         )}
 
