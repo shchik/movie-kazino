@@ -1,0 +1,20 @@
+.one-genre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 15px 15px 0px;
+}
+.one-genre input {
+  display: none;
+}
+.custom-label {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(13, 85, 107);
+  border: 1px solid #ccc;
+  display: inline-block;
+  cursor: pointer;
+}
+.custom-label img {
+  width: 100%;
+}

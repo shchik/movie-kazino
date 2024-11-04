@@ -23,6 +23,7 @@
 .about-us h1,
 .help h1 {
   color: rgb(57, 4, 68);
+  font-size: 22px;
 }
 .about-us a,
 .help a {

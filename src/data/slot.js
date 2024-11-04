@@ -14,7 +14,7 @@ class Slot {
   }
 }
 
-export let slotsPrototype = [
+export let slotsPrototype = JSON.parse(localStorage.getItem("slots")) || [
   {
     id: 1,
     image: slot1Image,
