@@ -1,9 +1,17 @@
 import React from "react";
+import "./login.css";
 
-function Login() {
-  const [isLogin, setIsLogin] = React.useState(true);
+function Login({ onLoginClick, isLoginned }) {
+  const [isLogin, setIsLogin] = React.useState(isLoginned);
+
   return (
-    <div className="mt-40 flex flex-col items-center justify-center bg-slate-900 text-white w-1/4 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl content-form hidden">
+    <div className="mt-40 flex flex-col items-center justify-center bg-slate-900 text-white w-1/4 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl content-form">
+      <button
+        className="absolute top-2 right-5 bg-red-500 px-1.5 hover:shadow-3xl"
+        onClick={onLoginClick}
+      >
+        X
+      </button>
       <h1 className="my-5 text-center text-xl ">
         {isLogin ? "Login" : "Registration"}
       </h1>
@@ -20,7 +28,7 @@ function Login() {
           <input
             type="text"
             className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
-            placeholder="username"
+            placeholder="Username"
           ></input>
         )}
         <input

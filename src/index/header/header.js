@@ -1,7 +1,7 @@
 import "./header.css";
 import kazLogo from "./images/kazino-logo.jpg";
 
-function Header() {
+function Header({ onLoginClick, isLogin }) {
   return (
     <header>
       <div className="header-class">
@@ -10,8 +10,8 @@ function Header() {
           <span className="kazino-name">Kin-Kaz</span>
         </div>
         <div className="header-right-section">
-          <button>Войти</button>
-          <button>Регистрация</button>
+          <button onClick={onLoginClick}>Войти</button>
+          <button onClick={isLogin}>Регистрация</button>
         </div>
       </div>
     </header>
