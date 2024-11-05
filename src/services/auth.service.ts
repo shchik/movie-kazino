@@ -1,4 +1,4 @@
-import { instance } from "../api/axios.api";
+import { instance } from "../api/axios.api.ts";
 import { IResponseUserData, IUserData } from "../types/types";
 
 export const AuthService = {
