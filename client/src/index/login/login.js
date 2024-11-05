@@ -29,7 +29,7 @@ function Login({ onLoginClick, isLoginned }) {
     }
   };
 
-  const loginnHandler = async (e) => {
+  const loginHandler = async (e) => {
     try {
     } catch (err) {
       const error = err.response?.data.message;
@@ -51,7 +51,7 @@ function Login({ onLoginClick, isLoginned }) {
 
       <form
         className="flex w-2/3 flex-col gap-5"
-        onSubmit={isLogin ? loginnHandler : registrationHandler}
+        onSubmit={isLogin ? loginHandler : registrationHandler}
       >
         <input
           type={isLogin ? "text" : "email"}

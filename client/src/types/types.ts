@@ -6,6 +6,7 @@ export interface IUserData {
 
 export interface IResponseUserData {
   email: string | undefined;
+  username: string | undefined;
   password: string | undefined;
   createdAt: string | undefined;
   updatedAt: string | undefined;

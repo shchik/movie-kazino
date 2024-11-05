@@ -1,4 +1,4 @@
-export function getTokenFromLocalStorage() {
+export function getTokenFromLocalStorage(): string {
   return JSON.parse(localStorage.getItem("token") || "{}");
 }
 
