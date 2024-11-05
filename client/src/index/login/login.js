@@ -25,7 +25,7 @@ function Login({ onLoginClick, isLoginned }) {
       }
     } catch (err) {
       const error = err.response?.data.message;
-      toast.error(error.toString());
+      toast.error(error);
     }
   };
 
