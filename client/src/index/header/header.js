@@ -1,7 +1,21 @@
+import { toast } from "react-toastify";
+import { removeTokenFromLocalStorage } from "../../helpers/localstorage.helper.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
+import { useAppDispatch } from "../../store/hooks.ts";
 import "./header.css";
 import kazLogo from "./images/kazino-logo.jpg";
+import { logout } from "../../store/user/userSlice.ts";
 
 function Header({ onLoginClick, isLogin }) {
+  const isAuth = useAuth();
+  const dispatch = useAppDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    removeTokenFromLocalStorage("token");
+    toast.success("You logged out!");
+  };
+
   return (
     <header>
       <div className="header-class">
@@ -10,8 +24,14 @@ function Header({ onLoginClick, isLogin }) {
           <span className="kazino-name">Kin-Kaz</span>
         </div>
         <div className="header-right-section">
-          <button onClick={onLoginClick}>Войти</button>
-          <button onClick={isLogin}>Регистрация</button>
+          {isAuth ? (
+            <button onClick={logoutHandler}>logout</button>
+          ) : (
+            <div>
+              <button onClick={onLoginClick}>Войти</button>
+              <button onClick={isLogin}>Регистрация</button>
+            </div>
+          )}
         </div>
       </div>
     </header>

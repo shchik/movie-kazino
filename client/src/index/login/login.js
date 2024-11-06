@@ -2,9 +2,13 @@ import React from "react";
 import "./login.css";
 import { AuthService } from "../../services/auth.service.ts";
 import { toast } from "react-toastify";
+import { setTokenToLocalStorage } from "../../helpers/localstorage.helper.ts";
+import { useAppDispatch } from "../../store/hooks.ts";
+import { login } from "../../store/user/userSlice.ts";
 
 function Login({ onLoginClick, isLoginned }) {
   const [isLogin, setIsLogin] = React.useState(isLoginned);
+  const dispatch = useAppDispatch();
 
   const [email, setEmail] = React.useState("");
   const [username, setUsername] = React.useState("");
@@ -31,6 +35,17 @@ function Login({ onLoginClick, isLoginned }) {
 
   const loginHandler = async (e) => {
     try {
+      e.preventDefault();
+      const data = await AuthService.login({
+        username: username,
+        password: password,
+      });
+      if (data) {
+        setTokenToLocalStorage("token", data.token);
+        dispatch(login(data));
+        toast.success("You entered the account!");
+        onLoginClick();
+      }
     } catch (err) {
       const error = err.response?.data.message;
       toast.error(error.toString());

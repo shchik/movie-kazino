@@ -4,8 +4,6 @@ import Header from "./header/header.js";
 import Main from "./main/main.js";
 import Footer from "./footer/footer.js";
 import Login from "./login/login.js";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function MainPage() {
   const [isLogin, setIsLogin] = React.useState(true);
@@ -28,7 +26,6 @@ function MainPage() {
         <Login onLoginClick={handleLoginToggle} isLoginned={isLogin} />
       )}
       {isLoginVisible && <div className="overlay"></div>}
-      <ToastContainer position="bottom-left" autoClose={2000} />
     </div>
   );
 }
