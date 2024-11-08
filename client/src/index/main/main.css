@@ -31,12 +31,17 @@
 .main-grid-layout {
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 20px;
-  margin-top: 3px;
+  margin: 5px 20px 0px 0px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1500px) {
+  .main-grid-layout {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 1250px) {
   .main-grid-layout {
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -46,7 +51,7 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 700px) {
   .main-grid-layout {
     grid-template-columns: 1fr;
   }
