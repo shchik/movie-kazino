@@ -4,9 +4,7 @@ import infoImage from "./icons/info-icon.png";
 import "./renderMainGrid.css";
 import React from "react";
 
-function RenderMainGrid(props) {
-  const [slots, setSlots] = React.useState(props.slots);
-
+function RenderMainGrid({ slots, setSlots }) {
   function addLike(slotId, event) {
     if (event.currentTarget.nextElementSibling.style.color === "lightgreen") {
       event.currentTarget.nextElementSibling.style.color = "white";
@@ -19,7 +17,6 @@ function RenderMainGrid(props) {
           return slot;
         });
       });
-      localStorage.setItem("slots", JSON.stringify(slots));
       return;
     }
     event.currentTarget.nextElementSibling.style.color = "lightgreen"; //
@@ -31,7 +28,6 @@ function RenderMainGrid(props) {
         return slot;
       });
     });
-    localStorage.setItem("slots", JSON.stringify(slots));
   }
 
   return slots.map((slot) => (

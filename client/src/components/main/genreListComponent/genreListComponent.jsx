@@ -2,8 +2,7 @@ import React from "react";
 import activeImage from "./active-icon.png";
 import "./genreListComponent.css";
 
-export default function RenderGenreList(props) {
-  const genres = props.genres;
+export default function RenderGenreList({ genres }) {
   const [selectedGenre, setSelectedGenre] = React.useState(null);
 
   const handleLabelClick = (genre) => {
