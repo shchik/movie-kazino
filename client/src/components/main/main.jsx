@@ -4,7 +4,14 @@ import React from "react";
 import RenderMainGrid from "./mainGridComponent/renderMainGrid";
 import RenderGenreList from "./genreListComponent/genreListComponent";
 
-function Main({ slots, setSlots, genres, searchValue, onChangeSearchValue }) {
+function Main({
+  slots,
+  setSlots,
+  genres,
+  onChangeSearchValue,
+  selectedGenre,
+  handleLabelClick,
+}) {
   return (
     <div className="main-flexbox">
       <div className="sidebar">
@@ -16,7 +23,12 @@ function Main({ slots, setSlots, genres, searchValue, onChangeSearchValue }) {
           ></input>
         </div>
         <ul className="genre-list">
-          <RenderGenreList genres={genres} slots={slots} />
+          <RenderGenreList
+            genres={genres}
+            slots={slots}
+            selectedGenre={selectedGenre}
+            handleLabelClick={handleLabelClick}
+          />
         </ul>
       </div>
 

@@ -17,6 +17,8 @@ function MainPage() {
 
   const [searchValue, setSearchValue] = React.useState("");
 
+  const [selectedGenre, setSelectedGenre] = React.useState(null);
+
   React.useEffect(() => {
     const readFromApi = async () => {
       try {
@@ -49,19 +51,38 @@ function MainPage() {
     readFromApi();
   }, []);
 
-  const onChangeSearchValue = (value) => {
-    setSearchValue(value);
-    console.log(searchValue);
-  };
-
   React.useEffect(() => {
     setSearchSlots(
       slots.filter((slot) =>
         slot.name.toLowerCase().includes(searchValue.toLowerCase())
       )
     );
-    console.log(searchSlots);
+    console.log("hello");
   }, [searchValue]);
+
+  React.useEffect(() => {
+    if (selectedGenre === "") {
+      setSearchSlots(slots);
+      return;
+    }
+    setSearchSlots(
+      slots.filter((slot) => {
+        return slot.categories.includes(selectedGenre);
+      })
+    );
+  }, [selectedGenre]);
+
+  const onChangeSearchValue = (value) => {
+    setSearchValue(value);
+  };
+
+  const handleLabelClick = (genre) => {
+    if (selectedGenre === genre) {
+      setSelectedGenre("");
+    } else {
+      setSelectedGenre(genre);
+    }
+  };
 
   const handleLoginToggle = () => {
     setIsLoginVisible(!isLoginVisible);
@@ -84,7 +105,8 @@ function MainPage() {
             slots={searchSlots}
             setSlots={setSearchSlots}
             genres={genres}
-            searchValue={searchValue}
+            selectedGenre={selectedGenre}
+            handleLabelClick={handleLabelClick}
             onChangeSearchValue={onChangeSearchValue}
           />
           <Footer />
