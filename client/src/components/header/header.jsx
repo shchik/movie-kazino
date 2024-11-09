@@ -25,11 +25,17 @@ function Header({ onLoginClick, isLogin }) {
         </div>
         <div className="header-right-section">
           {isAuth ? (
-            <button onClick={logoutHandler}>logout</button>
+            <button className="logout-button" onClick={logoutHandler}>
+              logout
+            </button>
           ) : (
             <div>
-              <button onClick={onLoginClick}>Войти</button>
-              <button onClick={isLogin}>Регистрация</button>
+              <button className="enter-button" onClick={onLoginClick}>
+                Войти
+              </button>
+              <button className="enter-button" onClick={isLogin}>
+                Регистрация
+              </button>
             </div>
           )}
         </div>

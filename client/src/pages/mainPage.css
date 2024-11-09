@@ -3,6 +3,7 @@ body {
 }
 .main-page {
   position: relative;
+  min-height: 600px;
 }
 
 .overlay {

@@ -31,12 +31,21 @@
   right: 20px;
   top: 10px;
 }
-.header-right-section button {
+.logout-button {
   margin: 0px 10px;
   padding: 5px 10px;
   border: 1px solid khaki;
   border-radius: 7px;
-  background-color: rgb(175, 142, 119);
+  background-color: rgb(207, 90, 74);
+  transition: all 0.25s;
+  cursor: pointer;
+}
+.enter-button {
+  margin: 0px 10px;
+  padding: 5px 10px;
+  border: 1px solid khaki;
+  border-radius: 7px;
+  background-color: rgb(31, 185, 108);
   transition: all 0.25s;
   cursor: pointer;
 }

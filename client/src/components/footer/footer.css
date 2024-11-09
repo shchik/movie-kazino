@@ -5,9 +5,14 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  margin: 100px 0px 0px 50px;
+  margin: 50px 22px 0px 50px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 100%;
 }
 .footer-container {
   display: flex;
