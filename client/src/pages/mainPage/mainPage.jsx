@@ -1,9 +1,9 @@
 import "./mainPage.css";
 import React from "react";
-import Header from "../components/header/header.jsx";
-import Main from "../components/main/main.jsx";
-import Footer from "../components/footer/footer.jsx";
-import Login from "../components/login/login.jsx";
+import Header from "../../containers/header/header.jsx";
+import Main from "../../containers/main/main.jsx";
+import Footer from "../../containers/footer/footer.jsx";
+import Login from "../../containers/login/login.jsx";
 import axios from "axios";
 
 function MainPage() {

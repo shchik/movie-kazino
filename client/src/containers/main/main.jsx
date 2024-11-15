@@ -1,8 +1,8 @@
 import searchImage from "./images/icons/search-icon.png";
 import "./main.css";
 import React from "react";
-import RenderMainGrid from "./mainGridComponent/renderMainGrid";
-import RenderGenreList from "./genreListComponent/genreListComponent";
+import RenderMainGrid from "../../components/mainGridComponent/renderMainGrid";
+import RenderGenreList from "../../components/genreListComponent/genreListComponent";
 
 function Main({
   slots,

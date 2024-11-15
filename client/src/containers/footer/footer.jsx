@@ -2,6 +2,7 @@ import "./footer.css";
 import telegramImage from "./images/icons/telegram-icon.png";
 import instagramImage from "./images/icons/instagram-icon.png";
 import youtubeImage from "./images/icons/youtube-icon.png";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -9,12 +10,12 @@ function Footer() {
       <div className="footer-container">
         <div className="about-us">
           <h1>Подробнее о нас</h1>
-          <a>О компании</a>
-          <a>Реквизиты</a>
-          <a>Сотрудничества</a>
-          <a>Партнёрская программа</a>
-          <a>Лицензии</a>
-          <a>Спонсорство</a>
+          <Link to="/infoPage">О компании</Link>
+          <Link to="/infoPage">Реквизиты</Link>
+          <Link to="/infoPage">Сотрудничества</Link>
+          <Link to="/infoPage">Партнёрская программа</Link>
+          <Link to="/infoPage">Лицензии</Link>
+          <Link to="/infoPage">Спонсорство</Link>
         </div>
         <div className="help">
           <h1>Помощь</h1>

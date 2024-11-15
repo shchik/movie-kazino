@@ -3,6 +3,7 @@ import likeImage from "./icons/like-icon.png";
 import infoImage from "./icons/info-icon.png";
 import "./renderMainGrid.css";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function RenderMainGrid({ slots, setSlots }) {
   function addLike(slotId, event) {
@@ -34,7 +35,9 @@ function RenderMainGrid({ slots, setSlots }) {
     <div className="one-slot" key={slot.id}>
       <img src={slot.image} alt="hello" className="slot-image-class"></img>
       <p className="slot-title">{slot.name}</p>
-      <button className="play-button">Играть</button>
+      <button className="play-button">
+        <Link to="/slotPage">Играть</Link>
+      </button>
       <a>
         <img src={infoImage} alt="hello" className="info-icon"></img>
       </a>
