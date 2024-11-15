@@ -1,0 +1,43 @@
+.slot-window {
+  position: relative;
+  margin: 0 6px;
+  border: 1px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.lenta-class {
+  position: absolute;
+  top: 125px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.one-line {
+  width: 100%;
+  height: 100%;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.line-image {
+  width: 230px;
+  height: 230px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+}
+.my-node {
+  opacity: 0;
+}
+.my-node-enter {
+  opacity: 1;
+}
+.my-node-enter-active {
+  transform: translateX(-50%) translateY(-100%); /* Конечная позиция */
+  transition: transform 1000ms;
+}
+.my-node-enter-done {
+  opacity: 0;
+}

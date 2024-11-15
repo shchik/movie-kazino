@@ -1,0 +1,92 @@
+.slot-container {
+  width: 80%;
+  height: 700px;
+  box-sizing: border-box;
+  background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+}
+.slot {
+  width: 80%;
+  height: 50%;
+  box-sizing: border-box;
+  background-color: gray;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.slot-panel {
+  margin-top: 40px;
+  background-color: red;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  width: 80%;
+  align-items: center;
+  text-align: center;
+}
+.auto-spin-class {
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+}
+.auto-spin-button {
+  padding: 25px 35px;
+  background-color: rgb(173, 194, 124);
+  border-radius: 20px;
+}
+.max-bet-class {
+  display: flex;
+  justify-content: center;
+}
+.max-bet-button {
+  padding: 25px 40px;
+  background-color: rgb(173, 194, 124);
+  border-radius: 20px;
+}
+.spin-button {
+  background-color: rgb(27, 59, 27);
+  padding: 20px;
+  margin: 10px;
+  border-radius: 69px;
+  text-align: center;
+}
+.spin-image {
+  width: 100px;
+}
+.bet-class {
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.bet-amount {
+  color: rgb(58, 42, 42);
+  margin-top: 5px;
+}
+.bet-buttons {
+  display: flex;
+  justify-content: center;
+}
+.less-than {
+  margin: 0px 3px 0px 0px;
+  color: rgb(224, 207, 49);
+}
+.more-than {
+  margin: 0px 0px 0px 3px;
+  color: rgb(224, 207, 49);
+}
+.cash-class {
+  font-size: 26px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
