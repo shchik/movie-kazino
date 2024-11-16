@@ -10,6 +10,22 @@ import negrImage from "./images/negr.jpg";
 import spinImage from "./images/spin.png";
 import React from "react";
 
+const greaterThan = ">";
+const lessThan = "<";
+
+function createImagesArray() {
+  return images.map((image, index) => {
+    let a = Math.random() * 100;
+    if (a < 30) return image1;
+    else if (a < 50 && a >= 30) return image2;
+    else if (a < 65 && a >= 50) return image5;
+    else if (a < 75 && a >= 65) return image10;
+    else if (a < 85 && a >= 75) return devkaImage;
+    else if (a < 93 && a >= 85) return negrImage;
+    else if (a < 100 && a >= 93) return johnImage;
+  });
+}
+
 const images = [
   image1,
   image2,
@@ -23,51 +39,36 @@ const images = [
 let lenta = [
   {
     id: 1,
-    images: images.map((image, index) => {
-      let a = Math.random() * 100;
-      if (a < 30) return image1;
-      else if (a < 50 && a >= 30) return image2;
-      else if (a < 65 && a >= 50) return image5;
-      else if (a < 75 && a >= 65) return image10;
-      else if (a < 85 && a >= 75) return devkaImage;
-      else if (a < 93 && a >= 85) return negrImage;
-      else if (a < 100 && a >= 93) return johnImage;
-    }),
+    images: createImagesArray(),
   },
   {
     id: 2,
-    images: images.map((image, index) => {
-      let a = Math.random() * 100;
-      if (a < 30) return image1;
-      else if (a < 50 && a >= 30) return image2;
-      else if (a < 65 && a >= 50) return image5;
-      else if (a < 75 && a >= 65) return image10;
-      else if (a < 85 && a >= 75) return devkaImage;
-      else if (a < 93 && a >= 85) return negrImage;
-      else if (a < 100 && a >= 93) return johnImage;
-    }),
+    images: createImagesArray(),
   },
   {
     id: 3,
-    images: images.map((image, index) => {
-      let a = Math.random() * 100;
-      if (a < 30) return image1;
-      else if (a < 50 && a >= 30) return image2;
-      else if (a < 65 && a >= 50) return image5;
-      else if (a < 75 && a >= 65) return image10;
-      else if (a < 85 && a >= 75) return devkaImage;
-      else if (a < 93 && a >= 85) return negrImage;
-      else if (a < 100 && a >= 93) return johnImage;
-    }),
+    images: createImagesArray(),
   },
 ];
 
 export default function SlotPage() {
   const [gameState, setGameState] = React.useState([]);
   const [playAnimation, setPlayAnimation] = React.useState(false);
+  const [winPrice, setWinPrice] = React.useState(0);
+  const [isWin, setIsWin] = React.useState(false);
+  const [balance, setBalance] = React.useState(300);
+  const [bet, setBet] = React.useState(0.5);
+  const [isPressed, setIsPressed] = React.useState(false);
 
   React.useEffect(() => {
-    const initialImages = new Array(3).fill({ value: images[0] });
+    let initialImages = new Array(3).fill({ value: images[0] });
+    initialImages = initialImages.map((el, index) => {
+      if (index === 1)
+        return {
+          value: image2,
+        };
+      return el;
+    });
     setGameState(initialImages);
   }, []);
 
@@ -75,26 +76,30 @@ export default function SlotPage() {
     if (gameState.length < 3 || gameState[0].value === "") return;
     if (
       gameState[0].value === gameState[1].value &&
-      gameState[0].value === gameState[2].value &&
-      gameState[0].value === devkaImage
-    ) {
-      alert("Бонуска!");
-    } else if (
-      gameState[0].value === gameState[1].value &&
       gameState[0].value === gameState[2].value
     ) {
-      alert("Найс!");
+      if (gameState[0].value === image1) {
+        setWinPrice(bet * 1);
+        setBalance((b) => b + bet * 1);
+      } else if (gameState[0].value === image2) {
+        setWinPrice(bet * 2);
+        setBalance((b) => b + bet * 2);
+      } else if (gameState[0].value === image5) {
+        setWinPrice(bet * 5);
+        setBalance((b) => b + bet * 5);
+      } else if (gameState[0].value === image10) {
+        setWinPrice(bet * 10);
+        setBalance((b) => b + bet * 10);
+      } else {
+        alert("Бонуска!");
+      }
+      setIsWin(true);
     }
-    console.log(gameState);
   }, [gameState]);
 
-  const greaterThan = ">";
-  const lessThan = "<";
-
-  const [balance, setBalance] = React.useState(300);
-  const [bet, setBet] = React.useState(0.5);
-
-  const [isPressed, setIsPressed] = React.useState(false);
+  const handleCanselWin = () => {
+    if (isWin === true) setIsWin(false);
+  };
 
   const handleLessButton = () => {
     if (bet === 0.5) return;
@@ -115,7 +120,6 @@ export default function SlotPage() {
     const newGameState = lenta.map((el) => ({
       value: el.images[6],
     }));
-    console.log(newGameState);
 
     setPlayAnimation(true);
     const emptyGameState = gameState.map(() => ({ value: "" }));
@@ -127,16 +131,7 @@ export default function SlotPage() {
       const newLenta = lenta.map((el, index) => {
         return {
           id: el.id,
-          images: images.map((image, index) => {
-            let a = Math.random() * 100;
-            if (a < 30) return image1;
-            else if (a < 50 && a >= 30) return image2;
-            else if (a < 65 && a >= 50) return image5;
-            else if (a < 75 && a >= 65) return image10;
-            else if (a < 85 && a >= 75) return devkaImage;
-            else if (a < 93 && a >= 85) return negrImage;
-            else if (a < 100 && a >= 93) return johnImage;
-          }),
+          images: createImagesArray(),
         };
       });
       lenta = newLenta;
@@ -145,11 +140,13 @@ export default function SlotPage() {
   };
 
   return (
-    <div className="slot-container">
+    <div className="slot-container" onClick={handleCanselWin}>
       <RenderSlotLines
         gameState={gameState}
         lenta={lenta}
         playAnimation={playAnimation}
+        isWin={isWin}
+        winPrice={winPrice}
       />
       <div className="slot-panel">
         <div className="auto-spin-class">

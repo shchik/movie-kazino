@@ -13,6 +13,7 @@ import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
   const dispatch = useAppDispatch();
+  const [isAuth, setIsAuth] = React.useState(false);
 
   const checkAuth = async () => {
     const token = getTokenFromLocalStorage();
@@ -21,6 +22,7 @@ function App() {
         const data = await AuthService.getProfile();
         if (data) {
           dispatch(login(data));
+          setIsAuth(true);
         } else {
           dispatch(logout());
         }
@@ -37,7 +39,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<MainPage isAuth={isAuth} />} />
         <Route path="/slotPage" element={<SlotPage />} />
         <Route path="/infoPage" element={<InfoPage />} />
       </Routes>

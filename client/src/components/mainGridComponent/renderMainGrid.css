@@ -65,7 +65,8 @@
 .play-button {
   position: absolute;
   top: 45%;
-  left: 30%;
+  left: 50%;
+  transform: translateX(-50%);
   opacity: 1;
   border: 1px solid rgb(100, 63, 54);
   padding: 8px 28px;

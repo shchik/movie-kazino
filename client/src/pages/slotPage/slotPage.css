@@ -1,6 +1,6 @@
 .slot-container {
-  width: 80%;
-  height: 700px;
+  width: 90%;
+  height: 800px;
   box-sizing: border-box;
   background-color: lightblue;
   display: flex;
@@ -8,18 +8,6 @@
   justify-content: center;
   align-items: center;
   margin: 50px;
-}
-.slot {
-  width: 80%;
-  height: 50%;
-  box-sizing: border-box;
-  background-color: gray;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
 }
 
 .slot-panel {
@@ -57,7 +45,6 @@
   margin: 10px;
   border-radius: 69px;
   text-align: center;
-  z-index: 100;
 }
 .spin-image {
   width: 100px;

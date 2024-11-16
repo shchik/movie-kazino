@@ -11,6 +11,8 @@ function Main({
   onChangeSearchValue,
   selectedGenre,
   handleLabelClick,
+  isAuth,
+  onLoginClick,
 }) {
   return (
     <div className="main-flexbox">
@@ -33,7 +35,12 @@ function Main({
       </div>
 
       <div className="main-grid-layout js-main-grid-layout">
-        <RenderMainGrid slots={slots} setSlots={setSlots} />
+        <RenderMainGrid
+          slots={slots}
+          setSlots={setSlots}
+          isAuth={isAuth}
+          onLoginClick={onLoginClick}
+        />
       </div>
     </div>
   );

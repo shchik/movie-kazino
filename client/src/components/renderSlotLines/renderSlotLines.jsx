@@ -2,9 +2,27 @@ import React from "react";
 import "./renderSlotLines.css";
 import { CSSTransition } from "react-transition-group";
 
-const RenderSlotLines = ({ gameState, lenta, playAnimation }) => {
+const RenderSlotLines = ({
+  gameState,
+  lenta,
+  playAnimation,
+  isWin,
+  winPrice,
+}) => {
   return (
     <div className="slot">
+      {isWin ? (
+        <div className="overlay">
+          <div className="background-image-class">
+            <div className="win-class">
+              <span className="win-price">Ваш выигрыш: {winPrice}$</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       {gameState.map((el, index) => {
         const nodeRef = React.useRef(null);
 
@@ -18,12 +36,31 @@ const RenderSlotLines = ({ gameState, lenta, playAnimation }) => {
             >
               <div className="lenta-class" ref={nodeRef}>
                 {lenta[index].images.map((itemList, ind) => (
-                  <img key={ind} src={itemList} className="lenta-image" />
+                  <img
+                    key={ind}
+                    src={itemList}
+                    className="lenta-image"
+                    alt="Hello"
+                  />
                 ))}
               </div>
             </CSSTransition>
 
-            <img key={index} src={el.value} className="lenta-image" />
+            {playAnimation ? (
+              <img
+                key={index}
+                src={el.value}
+                className="lenta-image active-animation"
+                alt="Hello"
+              />
+            ) : (
+              <img
+                key={index}
+                src={el.value}
+                className="lenta-image"
+                alt="Hello"
+              />
+            )}
           </div>
         );
       })}
