@@ -9,7 +9,10 @@
 }
 .lenta-class {
   position: absolute;
-  top: 125px;
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  top: 230px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -28,6 +31,13 @@
   object-position: center;
   border-radius: 20px;
 }
+.lenta-image {
+  width: 230px;
+  height: 230px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+}
 .my-node {
   opacity: 0;
 }
@@ -36,8 +46,11 @@
 }
 .my-node-enter-active {
   transform: translateX(-50%) translateY(-100%); /* Конечная позиция */
-  transition: transform 1000ms;
+  transition: transform 3000ms;
 }
-.my-node-enter-done {
+.my-node-exit-active {
+  opacity: 0;
+}
+.my-node-exit-done {
   opacity: 0;
 }

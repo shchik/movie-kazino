@@ -13,17 +13,17 @@ const RenderSlotLines = ({ gameState, lenta, playAnimation }) => {
             <CSSTransition
               nodeRef={nodeRef}
               in={playAnimation}
-              timeout={1000}
+              timeout={3000}
               classNames="my-node"
             >
               <div className="lenta-class" ref={nodeRef}>
                 {lenta[index].images.map((itemList, ind) => (
-                  <img key={ind} src={itemList} />
+                  <img key={ind} src={itemList} className="lenta-image" />
                 ))}
               </div>
             </CSSTransition>
 
-            <img key={index} src={el.value} />
+            <img key={index} src={el.value} className="lenta-image" />
           </div>
         );
       })}

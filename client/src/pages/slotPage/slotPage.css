@@ -57,6 +57,7 @@
   margin: 10px;
   border-radius: 69px;
   text-align: center;
+  z-index: 100;
 }
 .spin-image {
   width: 100px;
