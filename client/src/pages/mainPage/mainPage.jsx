@@ -6,7 +6,7 @@ import Footer from "../../containers/footer/footer.jsx";
 import Login from "../../containers/login/login.jsx";
 import axios from "axios";
 
-function MainPage({ isAuth }) {
+function MainPage() {
   const [slots, setSlots] = React.useState([]);
   const [searchSlots, setSearchSlots] = React.useState([]);
   const [genres, setGenres] = React.useState([]);
@@ -108,7 +108,6 @@ function MainPage({ isAuth }) {
             selectedGenre={selectedGenre}
             handleLabelClick={handleLabelClick}
             onChangeSearchValue={onChangeSearchValue}
-            isAuth={isAuth}
             onLoginClick={handleIsLogin}
           />
           <Footer />

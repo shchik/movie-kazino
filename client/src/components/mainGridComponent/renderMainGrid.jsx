@@ -2,10 +2,13 @@ import favouritesImage from "./icons/favourites-icon.png";
 import likeImage from "./icons/like-icon.png";
 import infoImage from "./icons/info-icon.png";
 import "./renderMainGrid.css";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { context } from "../../context";
 
-function RenderMainGrid({ slots, setSlots, isAuth, onLoginClick }) {
+function RenderMainGrid({ slots, setSlots, onLoginClick }) {
+  const contextValue = useContext(context);
+
   function addLike(slotId, event) {
     if (event.currentTarget.nextElementSibling.style.color === "lightgreen") {
       event.currentTarget.nextElementSibling.style.color = "white";
@@ -35,7 +38,7 @@ function RenderMainGrid({ slots, setSlots, isAuth, onLoginClick }) {
     <div className="one-slot" key={slot.id}>
       <img src={slot.image} alt="hello" className="slot-image-class"></img>
       <p className="slot-title">{slot.name}</p>
-      {isAuth ? (
+      {contextValue.isAuth ? (
         <button className="play-button">
           <Link to="/slotPage">Играть</Link>
         </button>

@@ -8,8 +8,9 @@ import { useAppDispatch } from "./store/hooks.ts";
 import { getTokenFromLocalStorage } from "./helpers/localstorage.helper.ts";
 import { AuthService } from "./services/auth.service.ts";
 import { login, logout } from "./store/user/userSlice.ts";
-import { useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { context } from "./context.js";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -21,9 +22,10 @@ function App() {
       if (token) {
         const data = await AuthService.getProfile();
         if (data) {
-          dispatch(login(data));
           setIsAuth(true);
+          dispatch(login(data));
         } else {
+          setIsAuth(false);
           dispatch(logout());
         }
       }
@@ -38,11 +40,14 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<MainPage isAuth={isAuth} />} />
-        <Route path="/slotPage" element={<SlotPage />} />
-        <Route path="/infoPage" element={<InfoPage />} />
-      </Routes>
+      <context.Provider value={{ isAuth, setIsAuth }}>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/slotPage" element={<SlotPage />} />
+          <Route path="/infoPage" element={<InfoPage />} />
+        </Routes>
+      </context.Provider>
+
       <ToastContainer position="bottom-left" autoClose={2000} />
     </div>
   );

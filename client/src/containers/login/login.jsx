@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 import { setTokenToLocalStorage } from "../../helpers/localstorage.helper.ts";
 import { useAppDispatch } from "../../store/hooks.ts";
 import { login } from "../../store/user/userSlice.ts";
+import { context } from "../../context.js";
 
 function Login({ onLoginClick, isLoginned }) {
+  const contextValue = React.useContext(context);
+
   const [isLogin, setIsLogin] = React.useState(isLoginned);
   const dispatch = useAppDispatch();
 
@@ -24,6 +27,7 @@ function Login({ onLoginClick, isLoginned }) {
         password: password,
       });
       if (data) {
+        contextValue.setIsAuth(true);
         toast.success("Account has been created!");
         onLoginClick();
       }
@@ -41,6 +45,7 @@ function Login({ onLoginClick, isLoginned }) {
         password: password,
       });
       if (data) {
+        contextValue.setIsAuth(true);
         setTokenToLocalStorage("token", data.token);
         dispatch(login(data));
         toast.success("You entered the account!");

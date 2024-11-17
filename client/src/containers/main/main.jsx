@@ -11,7 +11,6 @@ function Main({
   onChangeSearchValue,
   selectedGenre,
   handleLabelClick,
-  isAuth,
   onLoginClick,
 }) {
   return (
@@ -38,7 +37,6 @@ function Main({
         <RenderMainGrid
           slots={slots}
           setSlots={setSlots}
-          isAuth={isAuth}
           onLoginClick={onLoginClick}
         />
       </div>

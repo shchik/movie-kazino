@@ -5,12 +5,17 @@ import { useAppDispatch } from "../../store/hooks.ts";
 import "./header.css";
 import kazLogo from "./images/kazino-logo.jpg";
 import { logout } from "../../store/user/userSlice.ts";
+import { context } from "../../context.js";
+import React from "react";
 
 function Header({ onLoginClick, isLogin }) {
+  const contextValue = React.useContext(context);
+
   const isAuth = useAuth();
   const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
+    contextValue.setIsAuth(false);
     dispatch(logout());
     removeTokenFromLocalStorage("token");
     toast.success("You logged out!");
