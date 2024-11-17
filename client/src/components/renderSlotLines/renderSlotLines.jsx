@@ -8,9 +8,66 @@ const RenderSlotLines = ({
   playAnimation,
   isWin,
   winPrice,
+  isBonusGame,
+  bonusSpins,
+  bonusDocs,
+  setBonusDocs,
+  bonusImage,
+  isBonusEnd,
+  setIsBonusEnd,
+  bonusWin,
 }) => {
+  const handleBonusDocs = () => {
+    setBonusDocs(false);
+  };
+  const handleEndBonus = () => {
+    setIsBonusEnd(false);
+  };
+
   return (
     <div className="slot">
+      {isBonusEnd ? (
+        <div className="overlay">
+          <div className="background-image-bonus">
+            <div className="bonus-class">
+              <span className="bonus">
+                Вы выиграли {bonusWin} за эту бонусную игру!
+              </span>
+              <div className="bonus-image-class">
+                <span className="bonus">Ваша бонусная картинка:</span>
+                <img src={bonusImage} className="bonus-image"></img>
+              </div>
+              <button className="bonus-button" onClick={handleEndBonus}>
+                Закончить бонуску
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
+      {bonusDocs ? (
+        <div className="overlay">
+          <div className="background-image-bonus">
+            <div className="bonus-class">
+              <span className="bonus">
+                Вы выиграли бонусную игру! Вам даётся 10 бесплатных спинов с
+                бонусами!
+              </span>
+              <div className="bonus-image-class">
+                <span className="bonus">Ваша бонусная картинка:</span>
+                <img src={bonusImage} className="bonus-image"></img>
+              </div>
+              <button className="bonus-button" onClick={handleBonusDocs}>
+                Начать бонуску
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       {isWin ? (
         <div className="overlay">
           <div className="background-image-class">
@@ -18,6 +75,15 @@ const RenderSlotLines = ({
               <span className="win-price">Ваш выигрыш: {winPrice}$</span>
             </div>
           </div>
+        </div>
+      ) : (
+        ""
+      )}
+      {isBonusGame ? (
+        <div className="bonus-game">
+          <span className="bonus-text">
+            Количество бонусных вращений: {bonusSpins}
+          </span>
         </div>
       ) : (
         ""
@@ -38,7 +104,7 @@ const RenderSlotLines = ({
                 {lenta[index].images.map((itemList, ind) => (
                   <img
                     key={ind}
-                    src={itemList}
+                    src={itemList.image}
                     className="lenta-image"
                     alt="Hello"
                   />
@@ -49,14 +115,14 @@ const RenderSlotLines = ({
             {playAnimation ? (
               <img
                 key={index}
-                src={el.value}
+                src={el.image}
                 className="lenta-image active-animation"
                 alt="Hello"
               />
             ) : (
               <img
                 key={index}
-                src={el.value}
+                src={el.image}
                 className="lenta-image"
                 alt="Hello"
               />

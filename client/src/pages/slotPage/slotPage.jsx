@@ -12,17 +12,19 @@ import React from "react";
 
 const greaterThan = ">";
 const lessThan = "<";
+let intervalId;
 
 function createImagesArray() {
   return images.map((image, index) => {
     let a = Math.random() * 100;
-    if (a < 30) return image1;
-    else if (a < 50 && a >= 30) return image2;
-    else if (a < 65 && a >= 50) return image5;
-    else if (a < 75 && a >= 65) return image10;
-    else if (a < 85 && a >= 75) return devkaImage;
-    else if (a < 93 && a >= 85) return negrImage;
-    else if (a < 100 && a >= 93) return johnImage;
+    //if (a < 1000) return { image: devkaImage, value: 5 };
+    if (a < 30) return { image: image1, value: 1 };
+    else if (a < 50 && a >= 30) return { image: image2, value: 2 };
+    else if (a < 65 && a >= 50) return { image: image5, value: 5 };
+    else if (a < 75 && a >= 65) return { image: image10, value: 10 };
+    else if (a < 85 && a >= 75) return { image: devkaImage, value: 2 };
+    else if (a < 93 && a >= 85) return { image: negrImage, value: 4 };
+    else if (a < 100 && a >= 93) return { image: johnImage, value: 8 };
   });
 }
 
@@ -59,13 +61,21 @@ export default function SlotPage() {
   const [balance, setBalance] = React.useState(300);
   const [bet, setBet] = React.useState(0.5);
   const [isPressed, setIsPressed] = React.useState(false);
+  const [isSpinning, setIsSpinning] = React.useState(false);
+  const [isBonusGame, setIsBonusGame] = React.useState(false);
+  const [bonusSpins, setBonusSpins] = React.useState(0);
+  const [bonusImage, setBonusImage] = React.useState(null);
+  const [bonusDocs, setBonusDocs] = React.useState(false);
+  const [bonusWin, setBonusWin] = React.useState(0);
+  const [isBonusEnd, setIsBonusEnd] = React.useState(false);
 
   React.useEffect(() => {
-    let initialImages = new Array(3).fill({ value: images[0] });
+    let initialImages = new Array(3).fill({ image: images[0], value: 1 });
     initialImages = initialImages.map((el, index) => {
       if (index === 1)
         return {
-          value: image2,
+          image: image2,
+          value: 2,
         };
       return el;
     });
@@ -73,29 +83,126 @@ export default function SlotPage() {
   }, []);
 
   React.useEffect(() => {
-    if (gameState.length < 3 || gameState[0].value === "") return;
-    if (
-      gameState[0].value === gameState[1].value &&
-      gameState[0].value === gameState[2].value
-    ) {
-      if (gameState[0].value === image1) {
-        setWinPrice(bet * 1);
-        setBalance((b) => b + bet * 1);
-      } else if (gameState[0].value === image2) {
-        setWinPrice(bet * 2);
-        setBalance((b) => b + bet * 2);
-      } else if (gameState[0].value === image5) {
-        setWinPrice(bet * 5);
-        setBalance((b) => b + bet * 5);
-      } else if (gameState[0].value === image10) {
-        setWinPrice(bet * 10);
-        setBalance((b) => b + bet * 10);
-      } else {
-        alert("Бонуска!");
-      }
-      setIsWin(true);
+    if (isBonusGame) {
+      calculateWin();
+      gameState.map((state) => {
+        if (state.image === bonusImage) {
+          setWinPrice(
+            bet * gameState[0].value * gameState[1].value * gameState[2].value
+          );
+          setBalance(
+            (b) =>
+              b +
+              bet * gameState[0].value * gameState[1].value * gameState[2].value
+          );
+          setIsWin(true);
+        }
+      });
+    } else {
+      if (gameState.length < 3 || gameState[0].image === "") return;
+      calculateWin();
     }
   }, [gameState]);
+
+  const calculateWin = () => {
+    if (
+      gameState[0].image === gameState[1].image &&
+      gameState[0].image === gameState[2].image
+    ) {
+      if (gameState[0].image === image1) {
+        setWinPrice(bet * gameState[0].value);
+        setBalance((b) => b + bet * gameState[0].value);
+        setIsWin(true);
+      } else if (gameState[0].image === image2) {
+        setWinPrice(bet * gameState[0].value);
+        setBalance((b) => b + bet * gameState[0].value);
+        setIsWin(true);
+      } else if (gameState[0].image === image5) {
+        setWinPrice(bet * gameState[0].value);
+        setBalance((b) => b + bet * gameState[0].value);
+        setIsWin(true);
+      } else if (gameState[0].image === image10) {
+        setWinPrice(bet * gameState[0].value);
+        setBalance((b) => b + bet * gameState[0].value);
+        setIsWin(true);
+      } else if (
+        (gameState[0].image === devkaImage ||
+          gameState[0].image === negrImage ||
+          gameState[0].image === johnImage) &&
+        !isBonusGame
+      ) {
+        setBonusWin(balance);
+        setBonusDocs(true);
+        setIsBonusGame(true);
+        setBonusImage(gameState[0].image);
+        setBonusSpins(bonusSpins + 10);
+      }
+    }
+  };
+
+  const spinningSlot = () => {
+    if (isBonusGame) {
+      setBonusSpins(bonusSpins - 1);
+      setIsPressed(true);
+      const newGameState = lenta.map((el) => ({
+        image: el.images[6].image,
+        value: el.images[6].value,
+      }));
+
+      setPlayAnimation(true);
+      const emptyGameState = gameState.map(() => ({ image: "", value: 0 }));
+      setGameState(emptyGameState);
+
+      setTimeout(() => {
+        setPlayAnimation(false);
+        setGameState(newGameState);
+        const newLenta = lenta.map((el, index) => {
+          return {
+            id: el.id,
+            images: createImagesArray(),
+          };
+        });
+        lenta = newLenta;
+        setIsPressed(false);
+      }, 3000);
+      if (bonusSpins === 1) {
+        setTimeout(() => {
+          setIsBonusGame(false);
+          setBonusWin(balance - bonusWin);
+          setIsBonusEnd(true);
+        }, 4000);
+      }
+    } else {
+      if (balance < bet) return;
+      setIsPressed(true);
+
+      setBalance((prevBalance) => {
+        const newBalance = prevBalance - bet;
+        return newBalance;
+      });
+      const newGameState = lenta.map((el) => ({
+        image: el.images[6].image,
+        value: el.images[6].value,
+      }));
+
+      setPlayAnimation(true);
+      const emptyGameState = gameState.map(() => ({ image: "", value: 0 }));
+      setGameState(emptyGameState);
+
+      setTimeout(() => {
+        setPlayAnimation(false);
+        setGameState(newGameState);
+        const newLenta = lenta.map((el, index) => {
+          return {
+            id: el.id,
+            images: createImagesArray(),
+          };
+        });
+        lenta = newLenta;
+        setIsPressed(false);
+      }, 3000);
+    }
+  };
 
   const handleCanselWin = () => {
     if (isWin === true) setIsWin(false);
@@ -113,31 +220,28 @@ export default function SlotPage() {
     setBet(8);
   };
   const handleSpinButton = () => {
-    if (balance < bet) return;
-    setIsPressed(true);
-
-    setBalance(balance - bet);
-    const newGameState = lenta.map((el) => ({
-      value: el.images[6],
-    }));
-
-    setPlayAnimation(true);
-    const emptyGameState = gameState.map(() => ({ value: "" }));
-    setGameState(emptyGameState);
-
-    setTimeout(() => {
-      setPlayAnimation(false);
-      setGameState(newGameState);
-      const newLenta = lenta.map((el, index) => {
-        return {
-          id: el.id,
-          images: createImagesArray(),
-        };
-      });
-      lenta = newLenta;
-      setIsPressed(false);
-    }, 3000);
+    spinningSlot();
   };
+
+  const handleAutoSpinButton = () => {
+    if (isSpinning) {
+      clearInterval(intervalId);
+      setIsSpinning(false);
+    } else {
+      setIsSpinning(true);
+      intervalId = setInterval(() => {
+        spinningSlot();
+        if (balance < bet) {
+          clearInterval(intervalId);
+          setIsSpinning(false);
+        }
+      }, 4000);
+    }
+  };
+
+  React.useEffect(() => {
+    console.log(isSpinning);
+  }, [isSpinning]);
 
   return (
     <div className="slot-container" onClick={handleCanselWin}>
@@ -147,10 +251,20 @@ export default function SlotPage() {
         playAnimation={playAnimation}
         isWin={isWin}
         winPrice={winPrice}
+        isBonusGame={isBonusGame}
+        bonusSpins={bonusSpins}
+        bonusDocs={bonusDocs}
+        setBonusDocs={setBonusDocs}
+        bonusImage={bonusImage}
+        isBonusEnd={isBonusEnd}
+        setIsBonusEnd={setIsBonusEnd}
+        bonusWin={bonusWin}
       />
       <div className="slot-panel">
         <div className="auto-spin-class">
-          <button className="auto-spin-button">Auto-Spin</button>
+          <button className="auto-spin-button" onClick={handleAutoSpinButton}>
+            Auto-Spin
+          </button>
         </div>
         <dic className="max-bet-class">
           <button className="max-bet-button" onClick={handleMaxButton}>
