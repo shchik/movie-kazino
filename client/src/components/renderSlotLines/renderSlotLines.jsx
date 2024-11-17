@@ -31,7 +31,7 @@ const RenderSlotLines = ({
           <div className="background-image-bonus">
             <div className="bonus-class">
               <span className="bonus">
-                Вы выиграли {bonusWin} за эту бонусную игру!
+                Вы выиграли {bonusWin}$ за эту бонусную игру!
               </span>
               <div className="bonus-image-class">
                 <span className="bonus">Ваша бонусная картинка:</span>

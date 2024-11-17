@@ -7,18 +7,18 @@ import image10 from "./images/10.png";
 import devkaImage from "./images/devka.jpg";
 import johnImage from "./images/john.jfif";
 import negrImage from "./images/negr.jpg";
-import spinImage from "./images/spin.png";
 import React from "react";
+import { Link } from "react-router-dom";
+import SlotPanel from "../../components/slotPanelComponent/slotPanel.jsx";
 
-const greaterThan = ">";
-const lessThan = "<";
 let intervalId;
 
 function createImagesArray() {
-  return images.map((image, index) => {
+  return images.map(() => {
     let a = Math.random() * 100;
     //if (a < 1000) return { image: devkaImage, value: 5 };
     if (a < 30) return { image: image1, value: 1 };
+    //else if (a < 80 && a >= 30) return { image: devkaImage, value: 2 };
     else if (a < 50 && a >= 30) return { image: image2, value: 2 };
     else if (a < 65 && a >= 50) return { image: image5, value: 5 };
     else if (a < 75 && a >= 65) return { image: image10, value: 10 };
@@ -229,6 +229,7 @@ export default function SlotPage() {
       setIsSpinning(false);
     } else {
       setIsSpinning(true);
+      spinningSlot();
       intervalId = setInterval(() => {
         spinningSlot();
         if (balance < bet) {
@@ -245,6 +246,9 @@ export default function SlotPage() {
 
   return (
     <div className="slot-container" onClick={handleCanselWin}>
+      <button className="close-button">
+        <Link to="/">X</Link>
+      </button>
       <RenderSlotLines
         gameState={gameState}
         lenta={lenta}
@@ -260,39 +264,16 @@ export default function SlotPage() {
         setIsBonusEnd={setIsBonusEnd}
         bonusWin={bonusWin}
       />
-      <div className="slot-panel">
-        <div className="auto-spin-class">
-          <button className="auto-spin-button" onClick={handleAutoSpinButton}>
-            Auto-Spin
-          </button>
-        </div>
-        <dic className="max-bet-class">
-          <button className="max-bet-button" onClick={handleMaxButton}>
-            MaxBet
-          </button>
-        </dic>
-        <div className="spin-button-class">
-          <button
-            className="spin-button"
-            disabled={isPressed}
-            onClick={handleSpinButton}
-          >
-            <img src={spinImage} className="spin-image"></img>
-          </button>
-        </div>
-        <div className="bet-class">
-          <p className="bet-amount">{bet}$</p>
-          <div className="bet-buttons">
-            <button className="less-than" onClick={handleLessButton}>
-              {lessThan}
-            </button>
-            <button className="more-than" onClick={handleMoreButton}>
-              {greaterThan}
-            </button>
-          </div>
-        </div>
-        <span className="cash-class">{balance}$</span>
-      </div>
+      <SlotPanel
+        handleAutoSpinButton={handleAutoSpinButton}
+        handleMaxButton={handleMaxButton}
+        isPressed={isPressed}
+        handleSpinButton={handleSpinButton}
+        bet={bet}
+        handleLessButton={handleLessButton}
+        handleMoreButton={handleMoreButton}
+        balance={balance}
+      />
     </div>
   );
 }
