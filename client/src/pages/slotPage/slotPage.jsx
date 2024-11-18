@@ -10,6 +10,8 @@ import negrImage from "./images/negr.jpg";
 import React from "react";
 import { Link } from "react-router-dom";
 import SlotPanel from "../../components/slotPanelComponent/slotPanel.jsx";
+import { context } from "../../context.js";
+import { NotFoundPage } from "../notFoundPage/notFoundPage.jsx";
 
 let intervalId;
 
@@ -54,6 +56,8 @@ let lenta = [
 ];
 
 export default function SlotPage() {
+  const contextValue = React.useContext(context);
+
   const [gameState, setGameState] = React.useState([]);
   const [playAnimation, setPlayAnimation] = React.useState(false);
   const [winPrice, setWinPrice] = React.useState(0);
@@ -245,35 +249,41 @@ export default function SlotPage() {
   }, [isSpinning]);
 
   return (
-    <div className="slot-container" onClick={handleCanselWin}>
-      <button className="close-button">
-        <Link to="/">X</Link>
-      </button>
-      <RenderSlotLines
-        gameState={gameState}
-        lenta={lenta}
-        playAnimation={playAnimation}
-        isWin={isWin}
-        winPrice={winPrice}
-        isBonusGame={isBonusGame}
-        bonusSpins={bonusSpins}
-        bonusDocs={bonusDocs}
-        setBonusDocs={setBonusDocs}
-        bonusImage={bonusImage}
-        isBonusEnd={isBonusEnd}
-        setIsBonusEnd={setIsBonusEnd}
-        bonusWin={bonusWin}
-      />
-      <SlotPanel
-        handleAutoSpinButton={handleAutoSpinButton}
-        handleMaxButton={handleMaxButton}
-        isPressed={isPressed}
-        handleSpinButton={handleSpinButton}
-        bet={bet}
-        handleLessButton={handleLessButton}
-        handleMoreButton={handleMoreButton}
-        balance={balance}
-      />
-    </div>
+    <>
+      {contextValue.isAuth ? (
+        <div className="slot-container" onClick={handleCanselWin}>
+          <button className="close-button">
+            <Link to="/">X</Link>
+          </button>
+          <RenderSlotLines
+            gameState={gameState}
+            lenta={lenta}
+            playAnimation={playAnimation}
+            isWin={isWin}
+            winPrice={winPrice}
+            isBonusGame={isBonusGame}
+            bonusSpins={bonusSpins}
+            bonusDocs={bonusDocs}
+            setBonusDocs={setBonusDocs}
+            bonusImage={bonusImage}
+            isBonusEnd={isBonusEnd}
+            setIsBonusEnd={setIsBonusEnd}
+            bonusWin={bonusWin}
+          />
+          <SlotPanel
+            handleAutoSpinButton={handleAutoSpinButton}
+            handleMaxButton={handleMaxButton}
+            isPressed={isPressed}
+            handleSpinButton={handleSpinButton}
+            bet={bet}
+            handleLessButton={handleLessButton}
+            handleMoreButton={handleMoreButton}
+            balance={balance}
+          />
+        </div>
+      ) : (
+        <NotFoundPage />
+      )}
+    </>
   );
 }
