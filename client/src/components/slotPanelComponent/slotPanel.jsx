@@ -13,12 +13,18 @@ export default function SlotPanel({
   handleLessButton,
   handleMoreButton,
   balance,
+  handleKeyPress,
+  isSpinning,
 }) {
   return (
-    <div className="slot-panel">
+    <div
+      className="slot-panel"
+      onKeyDown={(e) => handleKeyPress(e)}
+      tabIndex="0"
+    >
       <div className="auto-spin-class">
         <button className="auto-spin-button" onClick={handleAutoSpinButton}>
-          Auto-Spin
+          {isSpinning ? "Stop-spinning" : "Auto-Spin"}
         </button>
       </div>
       <dic className="max-bet-class">

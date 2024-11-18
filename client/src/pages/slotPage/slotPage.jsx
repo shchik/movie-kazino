@@ -233,7 +233,7 @@ export default function SlotPage() {
       setIsSpinning(false);
     } else {
       setIsSpinning(true);
-      spinningSlot();
+      if (!isPressed) spinningSlot();
       intervalId = setInterval(() => {
         spinningSlot();
         if (balance < bet) {
@@ -243,10 +243,12 @@ export default function SlotPage() {
       }, 4000);
     }
   };
-
-  React.useEffect(() => {
-    console.log(isSpinning);
-  }, [isSpinning]);
+  const handleKeyPress = (e) => {
+    e.preventDefault();
+    if (e.keyCode === 32 && !isPressed) {
+      spinningSlot();
+    }
+  };
 
   return (
     <>
@@ -269,6 +271,7 @@ export default function SlotPage() {
             isBonusEnd={isBonusEnd}
             setIsBonusEnd={setIsBonusEnd}
             bonusWin={bonusWin}
+            handleKeyPress={handleKeyPress}
           />
           <SlotPanel
             handleAutoSpinButton={handleAutoSpinButton}
@@ -279,6 +282,8 @@ export default function SlotPage() {
             handleLessButton={handleLessButton}
             handleMoreButton={handleMoreButton}
             balance={balance}
+            handleKeyPress={handleKeyPress}
+            isSpinning={isSpinning}
           />
         </div>
       ) : (
