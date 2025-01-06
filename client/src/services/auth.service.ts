@@ -1,5 +1,5 @@
-import { instance } from "../api/axios.api.ts";
-import { IResponseUserData, IUser, IUserData } from "../types/types.ts";
+import { instance } from "../api/axios.api";
+import { IResponseUserData, IUser, IUserData } from "../types/types";
 
 export const AuthService = {
   async registration(

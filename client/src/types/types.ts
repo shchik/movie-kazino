@@ -23,3 +23,27 @@ export interface IResponseUserData {
   token: string;
   user: IResponceUser;
 }
+
+export type TSlot = {
+  id: number;
+  image: string;
+  name: string;
+  categories: string[];
+  likesCount: number;
+};
+
+export type TGenre = {
+  id: string;
+  name: string;
+  count: number;
+};
+
+export type TImages = {
+  image: string;
+  value: number;
+};
+
+export type TLenta = {
+  id: number;
+  images: (TImages | undefined)[];
+};
