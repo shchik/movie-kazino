@@ -1,0 +1,123 @@
+.slot {
+	border: 1px solid black;
+	margin: 5px 5px 0px 5px;
+	border-radius: 20px;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	height: 450px;
+
+	&__image {
+		width: 100%;
+		height: 90%;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	&__title {
+		margin: 10px;
+		text-align: start;
+		font-size: 16px;
+		font-weight: 500;
+		color: black;
+		z-index: 1;
+	}
+
+	&__play-button {
+		position: absolute;
+		top: 45%;
+		left: 50%;
+		transform: translateX(-50%);
+		opacity: 1;
+		border: 1px solid rgb(100, 63, 54);
+		padding: 8px 28px;
+		border-radius: 8px;
+		background-color: rgb(201, 5, 135);
+		color: rgb(245, 245, 245);
+		opacity: 0;
+	}
+
+	&__info {
+		left: 12px;
+		bottom: 12px;
+		cursor: pointer;
+		opacity: 0;
+	}
+
+	&__likes {
+		position: absolute;
+		right: 10px;
+		bottom: 10px;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		opacity: 0;
+
+		&-icon {
+			width: 30px;
+			border: 3px solib white;
+			margin-right: 5px;
+		}
+		&-count {
+			color: white;
+			z-index: 1;
+		}
+	}
+
+	&__favorite {
+		right: 10px;
+		top: 10px;
+		opacity: 0;
+	}
+
+	&__favorite,
+	&__info {
+		position: absolute;
+		width: 20px;
+		z-index: 1;
+	}
+
+	&:hover {
+		.slot__image {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			transition: all 0.8s;
+		}
+
+		.slot__title {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			margin: 0;
+			color: rgb(6, 224, 133);
+			font-size: 14px;
+		}
+
+		.slot__play-button,
+		.slot__likes,
+		.slot__info,
+		.slot__favorite {
+			opacity: 1;
+			z-index: 1;
+			cursor: pointer;
+		}
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.65);
+		left: 0;
+		top: 0;
+		transition: opacity 0.4s;
+		opacity: 0;
+	}
+
+	&:hover::after {
+		opacity: 1;
+	}
+}

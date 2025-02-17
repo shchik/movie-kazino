@@ -1,0 +1,89 @@
+.footer {
+	text-align: center;
+	height: 250px;
+	background-image: url("./images/footer-image.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	margin: 50px 22px 0px 50px;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	top: 100%;
+
+	&__container {
+		display: flex;
+		justify-content: start;
+	}
+
+	&__about {
+		margin-left: 60%;
+		width: 300px;
+	}
+
+	&__support {
+		align-items: start;
+		justify-content: start;
+		text-align: start;
+		flex: 1;
+	}
+
+	&__support,
+	&__about {
+		display: flex;
+		flex-direction: column;
+		text-align: start;
+		margin-left: 100px;
+
+		h1 {
+			color: rgb(57, 4, 68);
+			font-size: 22px;
+		}
+
+		a {
+			margin: 5px 0px;
+			color: rgb(80, 8, 175);
+			font-size: 17px;
+			text-decoration: none;
+			margin-left: 10px;
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__social-media {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		justify-content: center;
+		align-items: center;
+		height: 250px;
+
+		button {
+			margin: 10px;
+			padding: 10px;
+			border: 1px solid black;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+
+		img {
+			width: 40px;
+		}
+	}
+}
+.social-media .telegram-button {
+	background-color: rgb(158, 170, 204);
+}
+.instagram-button {
+	background-color: rgb(141, 124, 92);
+}
+.youtube-button {
+	background-color: rgb(218, 103, 75);
+}

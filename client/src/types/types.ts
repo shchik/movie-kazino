@@ -1,49 +1,49 @@
 export interface IUser {
-  id: number;
-  token: string;
-  username: string;
+	id: number;
+	token: string;
+	username: string;
 }
 
 export interface IUserData {
-  email: string;
-  username: string;
-  password: string;
+	email: string;
+	username: string;
+	password: string;
 }
 
-export interface IResponceUser {
-  email: string;
-  username: string;
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  password: string;
+export interface IResponseUser {
+	email: string;
+	username: string;
+	id: number;
+	createdAt: string;
+	updatedAt: string;
+	password: string;
 }
 
 export interface IResponseUserData {
-  token: string;
-  user: IResponceUser;
+	token: string;
+	user: IResponseUser;
 }
 
 export type TSlot = {
-  id: number;
-  image: string;
-  name: string;
-  categories: string[];
-  likesCount: number;
+	id: number;
+	image: string;
+	name: string;
+	categories: string[];
+	likesCount: number;
 };
 
 export type TGenre = {
-  id: string;
-  name: string;
-  count: number;
+	id: string;
+	name: string;
+	count: number;
 };
 
 export type TImages = {
-  image: string;
-  value: number;
+	image: string;
+	value: number;
 };
 
 export type TLenta = {
-  id: number;
-  images: (TImages | undefined)[];
+	id: number;
+	images: (TImages | undefined)[];
 };

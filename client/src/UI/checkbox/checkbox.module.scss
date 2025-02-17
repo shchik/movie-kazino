@@ -1,0 +1,17 @@
+.checkbox {
+	input {
+		display: none;
+	}
+
+	label {
+		width: 20px;
+		height: 20px;
+		background-color: rgb(13, 85, 107);
+		border: 1px solid #ccc;
+		display: inline-block;
+		cursor: pointer;
+		img {
+			width: 100%;
+		}
+	}
+}
