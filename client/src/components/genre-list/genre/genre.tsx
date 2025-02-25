@@ -1,9 +1,9 @@
-import { TGenre } from "../../../types/types";
+import { GenreType } from "../../../types/genre-types";
 import CheckBox from "../../../UI/checkbox/checkbox";
 import s from "./genre.module.scss";
 
 type GenreProps = {
-	genre: TGenre;
+	genre: GenreType;
 	selectedGenre: string;
 	handleLabelClick: (genre: string) => void;
 };

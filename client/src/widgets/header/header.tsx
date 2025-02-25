@@ -1,30 +1,25 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { context } from "../../context.js";
-import { removeTokenFromLocalStorage } from "../../helpers/localstorage.helper.js";
-import { useAuth } from "../../hooks/useAuth.js";
-import { useAppDispatch } from "../../store/hooks.js";
-import { logout } from "../../store/user/userSlice.js";
+import React, { SetStateAction } from "react";
+import { useLogout } from "../../hooks/auth/useLogout.js";
 import Button from "../../UI/Button.js";
 import s from "./header.module.scss";
 import kazLogo from "./images/kazino-logo.jpg";
 
 type HeaderProps = {
-	onLoginClick: () => void;
-	isLogin: () => void;
+	setIsAuthFormVisible: React.Dispatch<SetStateAction<boolean>>;
+	setIsAuth: React.Dispatch<SetStateAction<boolean>>;
+	isAuth: boolean;
 };
 
-const Header: React.FC<HeaderProps> = ({ onLoginClick, isLogin }) => {
-	const contextValue = React.useContext(context);
+const Header: React.FC<HeaderProps> = ({
+	setIsAuthFormVisible,
+	isAuth,
+	setIsAuth,
+}) => {
+	const logout = useLogout();
 
-	const isAuth: boolean = useAuth();
-	const dispatch = useAppDispatch();
-
-	const logoutHandler = (): void => {
-		contextValue.setIsAuth(false);
-		dispatch(logout());
-		removeTokenFromLocalStorage("token");
-		toast.success("You logged out!");
+	const handleLogoutToggle = () => {
+		logout();
+		setIsAuth(false);
 	};
 
 	return (
@@ -37,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ onLoginClick, isLogin }) => {
 				{isAuth ? (
 					<button
 						className={s["header__logout-button"]}
-						onClick={logoutHandler}
+						onClick={handleLogoutToggle}
 					>
 						logout
 					</button>
@@ -45,13 +40,17 @@ const Header: React.FC<HeaderProps> = ({ onLoginClick, isLogin }) => {
 					<div>
 						<Button
 							className={s["header__login-button"]}
-							onClick={onLoginClick}
+							onClick={() =>
+								setIsAuthFormVisible(prev => (prev = true))
+							}
 						>
 							Войти
 						</Button>
 						<Button
 							className={s["header__login-button"]}
-							onClick={isLogin}
+							onClick={() =>
+								setIsAuthFormVisible(prev => (prev = true))
+							}
 						>
 							Регистрация
 						</Button>

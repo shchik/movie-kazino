@@ -1,0 +1,161 @@
+.lines {
+	width: 90%;
+	height: 60%;
+	box-sizing: border-box;
+	background-color: rgb(224, 143, 143);
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 60px;
+	border-radius: 25px;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+
+	&__overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.8);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 100;
+	}
+
+	&__background-image {
+		height: 500px;
+		width: 700px;
+		background-image: url("./images/jackpot.jpg");
+		background-size: cover;
+		background-position: center;
+	}
+
+	&__bonus {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		font-size: 26px;
+		color: rgb(90, 8, 8);
+
+		&-image {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			img {
+				width: 200px;
+				height: 200px;
+				object-fit: cover;
+				object-position: center;
+				border-radius: 10%;
+			}
+		}
+
+		&-button {
+			margin: 10px;
+			padding: 20px 40px;
+			background-color: blueviolet;
+			border-radius: 16px;
+			color: black;
+		}
+
+		&-game {
+			position: absolute;
+			left: 50%;
+			top: 4%;
+			transform: translateX(-50%);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 26px;
+			color: rgb(0, 0, 0);
+		}
+	}
+
+	&__background-bonus-image {
+		width: 1000px;
+		height: 400px;
+		background-color: rgb(240, 177, 187);
+		border: 10px solid purple;
+		border-radius: 30px;
+		z-index: 10000;
+	}
+
+	&__win {
+		position: relative;
+		font-size: 34px;
+		font-weight: bold;
+		color: gold;
+		z-index: 1000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		opacity: 1;
+		background-color: rgba(0, 0, 0, 0.5);
+		height: 100%;
+	}
+
+	&__window {
+		position: relative;
+		margin: 0px 20px;
+		border: 1px solid green;
+		background-color: rgb(231, 229, 203);
+		height: 70%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	&__lenta {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		width: 240px;
+		top: 335px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&__lenta-image {
+		width: 240px;
+		height: 240px;
+		border-radius: 10px;
+
+		object-fit: cover;
+		object-position: center;
+		margin: 50px 0px;
+	}
+
+	&--active-animation {
+		opacity: 0;
+	}
+}
+.one-line {
+	width: 100%;
+	height: 100%;
+	gap: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+:global(.my-node) {
+	opacity: 0;
+}
+:global(.my-node-enter) {
+	opacity: 1;
+}
+:global(.my-node-enter-active) {
+	transform: translateX(-50%) translateY(-100%);
+	transition: transform 3000ms;
+}
+:global(.my-node-exit-active) {
+	opacity: 0;
+}
+:global(.my-node-exit-done) {
+	opacity: 0;
+}

@@ -1,9 +1,9 @@
-import { TGenre } from "../../types/types";
+import { GenreType } from "../../types/genre-types";
 import activeImage from "./active-icon.png";
 import s from "./checkbox.module.scss";
 
 type CheckBoxTypes = {
-	genre: TGenre;
+	genre: GenreType;
 	selectedGenre: string;
 	handleLabelClick: (genre: string) => void;
 };
@@ -17,17 +17,16 @@ const CheckBox: React.FC<CheckBoxTypes> = ({
 		<div className={s.checkbox}>
 			<input
 				type="checkbox"
-				id={genre.id}
-				checked={selectedGenre === genre.id}
+				checked={selectedGenre === genre.name}
 				readOnly
 			></input>
 			<label
-				htmlFor={genre.id}
-				onClick={() => handleLabelClick(genre.id)}
+				htmlFor={genre.name}
+				onClick={() => handleLabelClick(genre.name)}
 			>
 				<img
 					src={activeImage}
-					style={{ opacity: selectedGenre === genre.id ? 1 : 0 }}
+					style={{ opacity: selectedGenre === genre.name ? 1 : 0 }}
 				></img>
 			</label>
 		</div>

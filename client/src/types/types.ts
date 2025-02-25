@@ -1,46 +1,38 @@
 export interface IUser {
 	id: number;
-	token: string;
+	email: string;
 	username: string;
+	balance?: number;
 }
 
-export interface IUserData {
+export interface IAuthForm {
 	email: string;
 	username: string;
 	password: string;
+	confirmPassword: string;
 }
 
-export interface IResponseUser {
-	email: string;
+export interface IUserData {
+	email?: string;
 	username: string;
-	id: number;
-	createdAt: string;
-	updatedAt: string;
 	password: string;
 }
 
 export interface IResponseUserData {
-	token: string;
-	user: IResponseUser;
+	access_token: string;
+	user: IUser;
 }
-
-export type TSlot = {
-	id: number;
-	image: string;
-	name: string;
-	categories: string[];
-	likesCount: number;
-};
-
-export type TGenre = {
-	id: string;
-	name: string;
-	count: number;
-};
 
 export type TImages = {
 	image: string;
 	value: number;
+};
+
+export type ImagesResponseType = {
+	id: number;
+	image: string;
+	value: number;
+	slotId: number;
 };
 
 export type TLenta = {

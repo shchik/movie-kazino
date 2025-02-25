@@ -1,78 +1,52 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { context } from "../../context.js";
-import { setTokenToLocalStorage } from "../../helpers/localstorage.helper.js";
-import { AuthService } from "../../services/auth.service.js";
-import { useAppDispatch } from "../../store/hooks.js";
-import { login } from "../../store/user/userSlice.js";
-import { IResponseUserData, IUser } from "../../types/types.js";
+import React, { SetStateAction } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "../../hooks/auth/useAuth";
+import { IAuthForm } from "../../types/types";
 
 type AuthFormProps = {
-	onLoginClick: () => void;
-	isLoginned: boolean;
+	setIsAuthFormVisible: React.Dispatch<SetStateAction<boolean>>;
+	setIsAuth: React.Dispatch<SetStateAction<boolean>>;
 };
 
-const AuthForm: React.FC<AuthFormProps> = ({ onLoginClick, isLoginned }) => {
-	const contextValue = React.useContext(context);
+const AuthForm: React.FC<AuthFormProps> = ({
+	setIsAuthFormVisible,
+	setIsAuth,
+}) => {
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<IAuthForm>({
+		mode: "onChange",
+	});
 
-	const [isLogin, setIsLogin] = React.useState(isLoginned);
-	const dispatch = useAppDispatch();
+	const [isLogin, setIsLogin] = React.useState(true);
 
-	const [email, setEmail] = React.useState<string>("");
-	const [username, setUsername] = React.useState<string>("");
-	const [password, setPassword] = React.useState<string>("");
-	const [confirmPassword, setConfirmPassword] = React.useState<string>();
+	const authUser = useAuth(isLogin ? "login" : "register");
 
-	const registrationHandler = async (
-		e: React.FormEvent<HTMLFormElement>
-	): Promise<void> => {
-		try {
-			e.preventDefault();
-			const data: IResponseUserData | undefined =
-				await AuthService.registration({
-					email: email,
-					username: username,
-					password: password,
-				});
-			if (data) {
-				contextValue.setIsAuth(true);
-				toast.success("Account has been created!");
-				onLoginClick();
-			}
-		} catch (err: any) {
-			const error: string = err.response?.data.message;
-			toast.error(error);
-		}
-	};
+	const password = watch("password");
 
-	const loginHandler = async (
-		e: React.FormEvent<HTMLFormElement>
-	): Promise<void> => {
-		try {
-			e.preventDefault();
-			const data: IUser | undefined = await AuthService.login({
-				email: email,
-				username: username,
-				password: password,
-			});
-			if (data) {
-				contextValue.setIsAuth(true);
-				setTokenToLocalStorage("token", data.token);
-				dispatch(login(data));
-				toast.success("You entered the account!");
-				onLoginClick();
-			}
-		} catch (err: any) {
-			const error: string = err.response?.data.message;
-			toast.error(error);
-		}
+	const onSubmit: SubmitHandler<IAuthForm> = formData => {
+		const data = {
+			email: formData.email,
+			username: formData.username,
+			password: formData.password,
+		};
+
+		authUser(data, {
+			onSuccess() {
+				setIsAuthFormVisible(false);
+				setIsAuth(true);
+			},
+		});
 	};
 
 	return (
-		<div className="mt-40 flex flex-col items-center justify-center bg-slate-900 text-white w-1/4 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl content-form">
+		<div className="mt-40 flex flex-col items-center justify-center bg-slate-900 text-white w-1/4 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl z-[1000]">
 			<button
 				className="absolute top-2 right-5 bg-red-500 px-1.5 hover:shadow-3xl"
-				onClick={onLoginClick}
+				onClick={() => setIsAuthFormVisible(false)}
 			>
 				X
 			</button>
@@ -82,47 +56,98 @@ const AuthForm: React.FC<AuthFormProps> = ({ onLoginClick, isLoginned }) => {
 
 			<form
 				className="flex w-2/3 flex-col gap-5"
-				onSubmit={isLogin ? loginHandler : registrationHandler}
+				onSubmit={handleSubmit(onSubmit)}
 			>
-				<input
-					type={isLogin ? "text" : "email"}
-					className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
-					placeholder={isLogin ? "Username" : "Email"}
-					onChange={e =>
-						isLogin
-							? setUsername(e.target.value)
-							: setEmail(e.target.value)
-					}
-				></input>
-				{isLogin ? (
-					""
-				) : (
+				<div>
+					{isLogin ? (
+						""
+					) : (
+						<input
+							type="email"
+							placeholder="Email"
+							className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1 w-full"
+							{...register("email", {
+								required: "Email is required",
+								pattern: {
+									value: /^\S+@\S+\.\S+$/,
+									message: "Invalid email address",
+								},
+							})}
+						/>
+					)}
+					{errors.email && (
+						<p className="text-red-600">{errors.email.message}</p>
+					)}
+				</div>
+
+				<div>
 					<input
 						type="text"
-						className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
+						className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1 w-full"
 						placeholder="Username"
-						onChange={e => setUsername(e.target.value)}
+						{...register("username", {
+							required: "Username is required!",
+							minLength: {
+								value: 3,
+								message:
+									"Username must contain at least 3 letters",
+							},
+						})}
 					></input>
-				)}
-				<input
-					type="password"
-					className="input focus:outline-none  bg-transparent border-2 border-solid border-slate-500 rounded p-1"
-					placeholder="Password"
-					onChange={e => setPassword(e.target.value)}
-				></input>
+					{errors.username && (
+						<p className="text-red-600">
+							{errors.username.message}
+						</p>
+					)}
+				</div>
 
-				{isLogin ? (
-					""
-				) : (
+				<div>
 					<input
 						type="password"
-						className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1"
-						placeholder="Confirm Password"
-						onChange={e => setConfirmPassword(e.target.value)}
+						className="input focus:outline-none  bg-transparent border-2 border-solid border-slate-500 rounded p-1 w-full"
+						placeholder="Password"
+						{...register("password", {
+							required: "Password is required",
+							minLength: {
+								value: 5,
+								message:
+									"Password must contain at least 5 letters",
+							},
+						})}
 					></input>
-				)}
+					{errors.password && (
+						<p className="text-red-600">
+							{errors.password.message}
+						</p>
+					)}
+				</div>
 
-				<button className="btn bg-green-600 mx-auto py-2 px-6 rounded hover:shadow-3xl">
+				<div>
+					{isLogin ? (
+						""
+					) : (
+						<input
+							type="password"
+							className="input focus:outline-none bg-transparent border-2 border-solid border-slate-500 rounded p-1 w-full"
+							placeholder="Confirm Password"
+							{...register("confirmPassword", {
+								validate: (value: string) =>
+									value === password ||
+									"Passwords do not match",
+							})}
+						></input>
+					)}
+					{errors.confirmPassword && (
+						<p className="text-red-600">
+							{errors.confirmPassword.message}
+						</p>
+					)}
+				</div>
+
+				<button
+					className="btn bg-green-600 mx-auto py-2 px-6 rounded hover:shadow-3xl"
+					type="submit"
+				>
 					{isLogin ? "Login" : "Registration"}
 				</button>
 			</form>

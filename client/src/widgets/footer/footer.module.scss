@@ -15,13 +15,13 @@
 	top: 100%;
 
 	&__container {
+		margin-left: 50%;
 		display: flex;
 		justify-content: start;
 	}
 
 	&__about {
-		margin-left: 60%;
-		width: 300px;
+		width: 250px;
 	}
 
 	&__support {

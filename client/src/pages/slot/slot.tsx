@@ -1,84 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import RenderSlotLines from "../../components/renderSlotLines/renderSlotLines.js";
-import SlotPanel from "../../components/slotPanelComponent/slotPanel.js";
-import { context } from "../../context.js";
+import { Link, useSearchParams } from "react-router-dom";
+import SlotButtonPanel from "../../components/slot-button-panel/slot-button-panel.js";
+import SlotLines from "../../components/slot-lines/slot-lines.js";
+import { useImages } from "../../hooks/useImages.js";
 import { TImages, TLenta } from "../../types/types.js";
-import { NotFoundPage } from "../not-found/not-found.js";
-import image1 from "./images/1.png";
-import image10 from "./images/10.png";
-import image2 from "./images/2.png";
-import image5 from "./images/5.png";
-import devkaImage from "./images/devka.jpg";
-import johnImage from "./images/john.jfif";
-import negrImage from "./images/negr.jpg";
 import s from "./slot.module.scss";
 
-const images: TImages[] = [
-	{
-		image: image1,
-		value: 1,
-	},
-	{
-		image: image2,
-		value: 2,
-	},
-	{
-		image: image5,
-		value: 5,
-	},
-	{
-		image: image10,
-		value: 10,
-	},
-	{
-		image: devkaImage,
-		value: 2,
-	},
-	{
-		image: johnImage,
-		value: 4,
-	},
-	{
-		image: negrImage,
-		value: 8,
-	},
-];
-
-function createImagesArray(): (TImages | undefined)[] {
+function createImagesArray(images: TImages[]): (TImages | undefined)[] {
 	return images.map(() => {
 		let a: number = Math.random() * 100;
-		//if (a < 1000) return { image: devkaImage, value: 5 };
-		if (a < 30) return images[0];
-		//else if (a < 80 && a >= 30) return { image: devkaImage, value: 2 };
-		else if (a < 50 && a >= 30) return images[1];
-		else if (a < 65 && a >= 50) return images[2];
-		else if (a < 75 && a >= 65) return images[3];
-		else if (a < 85 && a >= 75) return images[4];
-		else if (a < 93 && a >= 85) return images[5];
-		else if (a < 100 && a >= 93) return images[6];
+		if (a < 17) return images[0];
+		else if (a < 34 && a >= 17) return images[1];
+		else if (a < 51 && a >= 34) return images[2];
+		else if (a < 67 && a >= 51) return images[3];
+		else if (a < 85 && a >= 67) return images[4];
+		else if (a < 100 && a >= 85) return images[5];
 	});
 }
 
 let intervalId: number;
 
-let lenta: TLenta[] = [
-	{
-		id: 1,
-		images: createImagesArray(),
-	},
-	{
-		id: 2,
-		images: createImagesArray(),
-	},
-	{
-		id: 3,
-		images: createImagesArray(),
-	},
-];
-
 const SlotPage: React.FC = () => {
-	const contextValue = React.useContext(context);
+	const [searchParams] = useSearchParams();
+	const id = searchParams.get("id");
+	const { images, isLoading } = useImages(parseInt(id!));
 
 	const [gameState, setGameState] = React.useState<TImages[]>([]);
 	const [playAnimation, setPlayAnimation] = React.useState(false);
@@ -96,15 +41,33 @@ const SlotPage: React.FC = () => {
 	const [bonusDocs, setBonusDocs] = React.useState(false);
 	const [bonusWin, setBonusWin] = React.useState(0);
 	const [isBonusEnd, setIsBonusEnd] = React.useState(false);
+	const [lenta, setLenta] = React.useState<TLenta[]>([]);
 
 	React.useEffect(() => {
-		let initialImages: TImages[] = new Array(3).fill(images[0]);
-		initialImages = initialImages.map((el, index) => {
-			if (index === 1) return images[1];
-			return el;
-		});
-		setGameState(initialImages);
-	}, []);
+		if (!isLoading && images.length > 0) {
+			let initialImages: TImages[] = new Array(3).fill(images[0]);
+			initialImages = initialImages.map((el, index) => {
+				if (index === 1) return images[1];
+				return el;
+			});
+			setGameState(initialImages);
+
+			setLenta([
+				{
+					id: 1,
+					images: createImagesArray(images),
+				},
+				{
+					id: 2,
+					images: createImagesArray(images),
+				},
+				{
+					id: 3,
+					images: createImagesArray(images),
+				},
+			]);
+		}
+	}, [isLoading, images]);
 
 	React.useEffect(() => {
 		if (isBonusGame) {
@@ -139,26 +102,22 @@ const SlotPage: React.FC = () => {
 			gameState[0].image === gameState[1].image &&
 			gameState[0].image === gameState[2].image
 		) {
-			if (gameState[0].image === image1) {
+			if (gameState[0].image === images[0].image) {
 				setWinPrice(bet * gameState[0].value);
 				setBalance(b => b + bet * gameState[0].value);
 				setIsWin(true);
-			} else if (gameState[0].image === image2) {
+			} else if (gameState[0].image === images[1].image) {
 				setWinPrice(bet * gameState[0].value);
 				setBalance(b => b + bet * gameState[0].value);
 				setIsWin(true);
-			} else if (gameState[0].image === image5) {
-				setWinPrice(bet * gameState[0].value);
-				setBalance(b => b + bet * gameState[0].value);
-				setIsWin(true);
-			} else if (gameState[0].image === image10) {
+			} else if (gameState[0].image === images[2].image) {
 				setWinPrice(bet * gameState[0].value);
 				setBalance(b => b + bet * gameState[0].value);
 				setIsWin(true);
 			} else if (
-				(gameState[0].image === devkaImage ||
-					gameState[0].image === negrImage ||
-					gameState[0].image === johnImage) &&
+				(gameState[0].image === images[3].image ||
+					gameState[0].image === images[4].image ||
+					gameState[0].image === images[5].image) &&
 				!isBonusGame
 			) {
 				setBonusWin(balance);
@@ -175,8 +134,8 @@ const SlotPage: React.FC = () => {
 			setBonusSpins(bonusSpins - 1);
 			setIsPressed(true);
 			const newGameState: TImages[] = lenta.map(el => ({
-				image: el.images[6]!.image,
-				value: el.images[6]!.value,
+				image: el.images[images.length - 1]!.image,
+				value: el.images[images.length - 1]!.value,
 			}));
 
 			setPlayAnimation(true);
@@ -189,13 +148,12 @@ const SlotPage: React.FC = () => {
 			setTimeout(() => {
 				setPlayAnimation(false);
 				setGameState(newGameState);
-				const newLenta = lenta.map((el, index) => {
-					return {
-						id: el.id,
-						images: createImagesArray(),
-					};
-				});
-				lenta = newLenta;
+				const newLenta = lenta.map(el => ({
+					id: el.id,
+					images: createImagesArray(images),
+				}));
+
+				setLenta(newLenta);
 				setIsPressed(false);
 			}, 3000);
 			if (bonusSpins === 1) {
@@ -214,8 +172,8 @@ const SlotPage: React.FC = () => {
 				return newBalance;
 			});
 			const newGameState = lenta.map(el => ({
-				image: el.images[6]!.image,
-				value: el.images[6]!.value,
+				image: el.images[images.length - 1]!.image,
+				value: el.images[images.length - 1]!.value,
 			}));
 
 			setPlayAnimation(true);
@@ -231,10 +189,10 @@ const SlotPage: React.FC = () => {
 				const newLenta = lenta.map((el, index) => {
 					return {
 						id: el.id,
-						images: createImagesArray(),
+						images: createImagesArray(images),
 					};
 				});
-				lenta = newLenta;
+				setLenta(newLenta);
 				setIsPressed(false);
 			}, 3000);
 		}
@@ -259,7 +217,7 @@ const SlotPage: React.FC = () => {
 		spinningSlot();
 	};
 
-	const handleAutoSpinButton = (): void => {
+	const handleAutoSpin = (): void => {
 		if (isSpinning) {
 			clearInterval(intervalId);
 			setIsSpinning(false);
@@ -284,14 +242,16 @@ const SlotPage: React.FC = () => {
 
 	return (
 		<>
-			{contextValue.isAuth ? (
+			{isLoading ? (
+				<div>Loading...</div>
+			) : (
 				<div className={s.slot} onClick={handleCanselWin}>
-					<button>
+					<button className={s["slot__close-button"]}>
 						<Link to="/">X</Link>
 					</button>
-					<RenderSlotLines
+					<SlotLines
 						gameState={gameState}
-						lenta={lenta}
+						lenta={lenta!}
 						playAnimation={playAnimation}
 						isWin={isWin}
 						winPrice={winPrice}
@@ -304,8 +264,8 @@ const SlotPage: React.FC = () => {
 						setIsBonusEnd={setIsBonusEnd}
 						bonusWin={bonusWin}
 					/>
-					<SlotPanel
-						handleAutoSpinButton={handleAutoSpinButton}
+					<SlotButtonPanel
+						handleAutoSpin={handleAutoSpin}
 						handleMaxButton={handleMaxButton}
 						isPressed={isPressed}
 						handleSpinButton={handleSpinButton}
@@ -317,8 +277,6 @@ const SlotPage: React.FC = () => {
 						isSpinning={isSpinning}
 					/>
 				</div>
-			) : (
-				<NotFoundPage />
 			)}
 		</>
 	);
