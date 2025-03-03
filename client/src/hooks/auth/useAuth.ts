@@ -15,7 +15,8 @@ export const useAuth = (type: "login" | "register") => {
 			}),
 		onSuccess(data) {
 			toast.success("Authorization succeed!");
-			saveTokenStorage(data!.access_token);
+			console.log(data);
+			saveTokenStorage(data!.accessToken);
 		},
 		onError() {
 			toast.error("Authorization failed!");

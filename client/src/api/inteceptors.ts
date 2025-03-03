@@ -9,8 +9,8 @@ const options: CreateAxiosDefaults = {
 	baseURL: "http://localhost:8080/api",
 	headers: {
 		"Content-Type": "application/json",
-		withCredentials: true,
 	},
+	withCredentials: true,
 };
 
 const axiosClassic = axios.create(options);

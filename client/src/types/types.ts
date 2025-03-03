@@ -19,7 +19,7 @@ export interface IUserData {
 }
 
 export interface IResponseUserData {
-	access_token: string;
+	accessToken: string;
 	user: IUser;
 }
 
