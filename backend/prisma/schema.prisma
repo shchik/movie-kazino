@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  username String 
+  password String
+  balance Decimal @db.Decimal(9, 2) @default(0)
+
+  @@map("user")
+}
+
+model Slot{
+  id Int @id @default(autoincrement())
+  title String @unique 
+  image String
+  categories String[]
+  images Images[]
+
+  @@map("slot")
+}
+
+model Genre{
+  id Int @id @default(autoincrement())
+  name String @unique
+  count Int
+
+  @@map("genre")
+}
+
+model Images{
+  id Int @id @default(autoincrement())
+  image String
+  value Int
+  slot Slot @relation(fields: [slotId], references: [id])
+  slotId Int @map("slot_id")
+  @@map("images")
+}
