@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+    db:
+        image: postgres:latest
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=shadyman6
+            - POSTGRES_DB=base_name
+        ports:
+            - '5432:5432'
+        networks:
+            - base_name_network
+    app:
+        build: .
+        environment:
+            - DATABASE_URL=postgresql://postgres:shadyman6@db:5432/kazino-movie?schema=public
+            - PORT=8080
+            - JWT_SECRET=SOME_SECRET
+        depends_on:
+            - db
+        networks:
+            - base_name_network
+        ports:
+            - '8080:8080'
+networks:
+    base_name_network:
+        driver: bridge
